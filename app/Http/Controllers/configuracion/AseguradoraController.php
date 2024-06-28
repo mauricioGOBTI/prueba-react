@@ -31,7 +31,14 @@ class AseguradoraController extends Controller
             
             DB::beginTransaction();
                 $aseguradora = new Aseguradora();
-                $aseguradora->fill($validatedData);
+                $aseguradora->razon_social = $request->razon_social;
+                $aseguradora->nombre_comercial = $request->nombre_comercial;
+                $aseguradora->telefono = $request->telefono;
+                $aseguradora->rfc = $request->rfc;
+                $aseguradora->correo_contacto = $request->correo_contacto;
+                $aseguradora->calle = $request->calle;
+                $aseguradora->no_exterior = $request->no_exterior;
+                $aseguradora->colonia = $request->colonia;
                 $aseguradora->save();
             DB::commit();
             
@@ -44,7 +51,7 @@ class AseguradoraController extends Controller
             return response()->json(['error' => 'Error de validación.', 'detalles' => $e->errors()], 422);
         } catch (\Throwable $th) {
             DB::rollBack();
-            return response()->json(['error' => 'Ocurrió un error inesperado.'], 500);
+            return response()->json(['error' => $th], 500);
         }
     }
 }
